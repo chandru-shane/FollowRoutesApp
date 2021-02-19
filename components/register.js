@@ -92,7 +92,6 @@ const styles = StyleSheet.create({
   buttonContainer:{
     width:'80%',
     marginVertical:10,
-    
   }
 })
 
