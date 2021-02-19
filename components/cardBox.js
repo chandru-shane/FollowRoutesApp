@@ -1,20 +1,27 @@
 import React from 'react';
-import { View, Text, StyleSheet, ImageBackground } from 'react-native';
+import { View, Text, StyleSheet, ImageBackground, TouchableOpacity } from 'react-native';
 
 const CardBox = props => {
     return(
+      
         <View style={styles.container}>
-
-        <ImageBackground source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Spaghetti_Bolognese_mit_Parmesan_oder_Grana_Padano.jpg/800px-Spaghetti_Bolognese_mit_Parmesan_oder_Grana_Padano.jpg' }}
+            <TouchableOpacity onPress={props.onSelect}>
+            <View>
+        <ImageBackground source={{ uri: props.thumbnail }}
             style={styles.image} />
         <View style={styles.detailContainer}>
-            <Text>Budget: $2000</Text>
-            <Text>Days: 5</Text>
+            <Text>Budget: ${props.cost}</Text>
+            <Text>Days: {props.day}</Text>
             <Text>Rating: 5/5</Text>
         </View>
-
+        </View>
+        </TouchableOpacity>
     </View>
     )
+}
+
+CardBox.navigationOptions = navData ={
+    
 }
 
 const styles = StyleSheet.create({
@@ -25,8 +32,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#f5f5f5',
         borderRadius: 10,
         overflow: 'hidden',
-        marginVertical: 10,
-        marginHorizontal: '10%',
+
     },
     image: {
         width: '100%',

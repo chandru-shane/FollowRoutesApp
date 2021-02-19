@@ -1,13 +1,20 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Login from './screens/login';
-import Register from './screens/register';
-import Home from './screens/home';
+import { enableScreens } from 'react-native-screens'
 
+import Navigator from './navigation/navigator';
+
+
+
+
+
+enableScreens();
 export default function App() {
+
+  
   return (
-   <Home />
+   <Navigator />
   );
 }
 

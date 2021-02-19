@@ -5,11 +5,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const User = props => {
-
-  const removeToken = async () =>{
-    const token = AsyncStorage.removeItem("MR_Token")
-  }
-
     const logoutRequest = async () => {
         const token = await AsyncStorage.getItem("MR_Token")
         
@@ -24,8 +19,7 @@ const User = props => {
                 const statusCode = res.status
                 if(statusCode === 200){
                   console.log('this is the status code of the request', statusCode)
-                  return res.json();
-
+                  return res.json()
                 }
                
               })
@@ -48,7 +42,6 @@ const User = props => {
 
     const logoutHandler = navigate =>{
         logoutRequest();
-        removeToken();
         navigate("Auth");
     }
     return(<View style={styles.screen}><Text>This is hello world</Text>
