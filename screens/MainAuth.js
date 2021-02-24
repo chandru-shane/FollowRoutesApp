@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import LogoText from '../components/LogoText';
 import Login from '../components/Login';
+import Register from '../components/Register';
 
 
 const MainAuth = props => {
@@ -40,7 +41,10 @@ const MainAuth = props => {
         setReg(!reg);
     }
     let authView = <Login  toggle={toggleView} navigate={props.navigation.navigate} />
-
+    
+    if (reg){
+        authView = <Register toggle={toggleView} />
+    }
    
     return (authView)
 }

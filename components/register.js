@@ -2,8 +2,8 @@ import { setStatusBarStyle } from 'expo-status-bar';
 import React, {useState} from 'react';
 import { View, Text,StyleSheet, TextInput, Button, TouchableNativeFeedback } from 'react-native';
 
-import LogoText from '../components/logoText';
-import Colors from '../constants/colors';
+import LogoText from './LogoText';
+import Colors from '../constants/Colors';
 
 
 const Register = props => {
