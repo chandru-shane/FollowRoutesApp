@@ -121,6 +121,10 @@ const Home = props => {
 
 }
 
+Home.navigationOptions = {
+  headerTitle:'FollowRoutes'
+}
+
 const styles = StyleSheet.create({
 
   scrollView: {

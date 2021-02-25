@@ -1,6 +1,8 @@
 import { setStatusBarBackgroundColor } from 'expo-status-bar';
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, ImageBackground, Button } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons'; 
+
 
 const SpotDetail = props => {
     const data = props.navigation.getParam('item');
@@ -27,13 +29,13 @@ const SpotDetail = props => {
                     
                     <Text>Rating: 5/5</Text>
                     
-                        <Text>Budget:${cost}</Text>
-                    
+                        <Text>Cost:${cost}</Text>
+                        <MaterialIcons name="add-location-alt" size={30} color="red" />
                     
                 </View>
 
                 <View style={styles.detail}>
-                <Text style={styles.descriptionTitle}>description</Text>
+                <Text style={styles.descriptionTitle}>Description</Text>
                 <Text>{data.description}</Text>
                 </View>
             </View>
