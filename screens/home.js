@@ -24,27 +24,27 @@ const Home = props => {
 
     const token = await AsyncStorage.getItem("MR_Token");
     console.log("getting the home data", token)
-    if(token){
+    if (token) {
       fetch(`${Urls.TOP}`, {
-        method:'GET',
-        headers:{
-        'Authorization':`Token ${token}`
-      }
+        method: 'GET',
+        headers: {
+          'Authorization': `Token ${token}`
+        }
 
-        }).then(res => {
-            if(res.status===200){
-              console.log("This we get data fine", res)
-              return res.json();
-            }
-            else{
-            removeKey();
-            console.log('is am going to exit')
-            props.navigation.navigate("Auth");
-          }
-        }).then(res => {
-          console.log('printing data', res);
-          setHomeData(res)
-        })
+      }).then(res => {
+        if (res.status === 200) {
+          console.log("This we get data fine", res)
+          return res.json();
+        }
+        else {
+          removeKey();
+          console.log('is am going to exit')
+          props.navigation.navigate("Auth");
+        }
+      }).then(res => {
+        console.log('printing data', res);
+        setHomeData(res)
+      })
     }
   }
 
@@ -92,10 +92,10 @@ const Home = props => {
     <ScrollView style={styles.scrollView}>
       <View style={styles.screen}>
         <HomeSearch SearchHandler={SearchHandler} serach={props.navigation.navigate} />
-        
+
         <FlatList style={styles.mainList}
           data={homeData}
-          keyExtractor = {(item, index)=> item.id}
+          keyExtractor={(item, index) => item.id}
           // keyExtractor={(item) => {
           //   console.log(typeof toString(item.id), 'printine teh key data')
           //   return toString(item.id)
@@ -103,7 +103,7 @@ const Home = props => {
           renderItem={(itemData) => {
             console.log(itemData.item, 'consoling');
             return (<CardBox
-              title = {itemData.item.name}
+              title={itemData.item.name}
               cost={itemData.item.cost}
               description={itemData.item.description}
               day={itemData.item.day}
@@ -123,9 +123,9 @@ const Home = props => {
 
 const styles = StyleSheet.create({
 
-  scrollView:{
+  scrollView: {
     backgroundColor: 'white'
-  },  
+  },
   screen: {
     flex: 1,
 
@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
   mainList: {
     width: '100%',
     padding: 10,
-    
+
   }
 
 })

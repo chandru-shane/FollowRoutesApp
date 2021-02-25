@@ -1,13 +1,13 @@
-import React, {useState} from 'react';
-import {View, TextInput, StyleSheet} from 'react-native';
+import React, { useState } from 'react';
+import { View, TextInput, StyleSheet } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const HomeSearch = (props) => {
     const [search, setSearch] = useState("");
-    return(<View style={styles.searchContainer}>
-        <TextInput style={styles.searchInput} onChangeText={(text)=>{setSearch(text)}} value={search} placeholder="Let's Explore..." />
-        <FontAwesome style={styles.searchIcon} name="search" size={24} color="black" onPress={()=>{props.SearchHandler(search, props.search)}} />
+    return (<View style={styles.searchContainer}>
+        <TextInput style={styles.searchInput} onChangeText={(text) => { setSearch(text) }} value={search} placeholder="Let's Explore..." />
+        <FontAwesome style={styles.searchIcon} name="search" size={24} color="black" onPress={() => { props.SearchHandler(search, props.search) }} />
     </View>)
 }
 
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#888',
         marginVertical: 20,
-        marginTop:25,
+        marginTop: 25,
         borderRadius: 20,
         padding: 5,
         backgroundColor: 'white',
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
         margin: 1,
     },
     searchIcon: {
-        width:'20%',
+        width: '20%',
         padding: 5,
         margin: 1,
     },

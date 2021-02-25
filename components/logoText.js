@@ -12,12 +12,12 @@ const LogoText = props => {
 }
 
 const styles = StyleSheet.create({
-    logoTextContainer:{
-        margin:10,
+    logoTextContainer: {
+        margin: 10,
     },
-    logoText:{
-        fontSize:30,
-        fontWeight:'500',
+    logoText: {
+        fontSize: 30,
+        fontWeight: '500',
     }
 })
 

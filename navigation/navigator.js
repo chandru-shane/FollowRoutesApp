@@ -1,9 +1,9 @@
 import React from 'react';
-import {Platform} from 'react-native';
-import {createAppContainer, createSwitchNavigator} from 'react-navigation';
-import {createStackNavigator} from 'react-navigation-stack'
+import { Platform } from 'react-native';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack'
 // import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs'
-import {createBottomTabNavigator} from 'react-navigation-tabs';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { AntDesign } from '@expo/vector-icons';
 
 
@@ -15,18 +15,22 @@ import SpotDetail from '../screens/SpotDetail';
 
 const HomeNavigator = createStackNavigator({
 
-    Home:{screen:Home, navigationOptions: {
-        headerShown: false,
-      }},
-    Detail:DetailTrip,
-    SpotDetail:SpotDetail,
+  Home: {
+    screen: Home, navigationOptions: {
+      headerShown: false,
+    }
+  },
+  Detail: DetailTrip,
+  SpotDetail: SpotDetail,
 })
 
 
-const UserNavigator =  createStackNavigator({
-  User:{screen:User, navigationOptions: {
+const UserNavigator = createStackNavigator({
+  User: {
+    screen: User, navigationOptions: {
       header: null,
-    }},
+    }
+  },
 })
 
 
@@ -45,28 +49,29 @@ const tabScreenConfig = {
       tabBarColor: 'white'
     }
   },
-  User:{
+  User: {
     screen: UserNavigator,
-  navigationOptions: {
-    tabBarIcon: tabInfo => {
-      return (
-        <AntDesign name="user" size={24} color="black" />
-      );
-    },
-    tabBarColor: 'white'
-  }}
+    navigationOptions: {
+      tabBarIcon: tabInfo => {
+        return (
+          <AntDesign name="user" size={24} color="black" />
+        );
+      },
+      tabBarColor: 'white'
+    }
+  }
 }
 
 
 
-const TabNavigator =createBottomTabNavigator(
+const TabNavigator = createBottomTabNavigator(
   tabScreenConfig
 );
 
 
 const Navigator = createSwitchNavigator({
-  Auth:MainAuth,
-  App:TabNavigator,
+  Auth: MainAuth,
+  App: TabNavigator,
 })
 
 export default createAppContainer(Navigator);

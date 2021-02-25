@@ -1,66 +1,67 @@
 import React from 'react';
-import {View, Text, StyleSheet, Button} from 'react-native';
+import { View, Text, StyleSheet, Button } from 'react-native';
 import Urls from '../constants/Urls';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const User = props => {
 
-  const removeToken = async () =>{
+  const removeToken = async () => {
     const token = AsyncStorage.removeItem("MR_Token")
   }
 
-    const logoutRequest = async () => {
-        const token = await AsyncStorage.getItem("MR_Token")
-        
-        if(token){
-            fetch(`${Urls.LOGOUT}`, {
-                method: 'GET',
-                headers: {
-                  'Authorization': `Token ${token}`
-                }
-              })
-              .then( res => {
-                const statusCode = res.status
-                if(statusCode === 200){
-                  console.log('this is the status code of the request', statusCode)
-                  return res.json();
+  const logoutRequest = async () => {
+    const token = await AsyncStorage.getItem("MR_Token")
 
-                }
-               
-              })
-              .then( jsonRes => {console.log(jsonRes) ;
-                  if(jsonRes.detail==="Invalid token."){
-                    props.authHandler()
-                  }    
-                setHomeData(jsonRes);
-                    
+    if (token) {
+      fetch(`${Urls.LOGOUT}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Token ${token}`
+        }
+      })
+        .then(res => {
+          const statusCode = res.status
+          if (statusCode === 200) {
+            console.log('this is the status code of the request', statusCode)
+            return res.json();
 
-              } )
-              .catch( error => {
-                console.log(error, 'falieing')
-              });
-            }
-            else{
-                props.navigation.navigate("Auth");
-            }
+          }
+
+        })
+        .then(jsonRes => {
+          console.log(jsonRes);
+          if (jsonRes.detail === "Invalid token.") {
+            props.authHandler()
+          }
+          setHomeData(jsonRes);
+
+
+        })
+        .catch(error => {
+          console.log(error, 'falieing')
+        });
     }
-
-    const logoutHandler = navigate =>{
-        logoutRequest();
-        removeToken();
-        navigate("Auth");
+    else {
+      props.navigation.navigate("Auth");
     }
-    return(<View style={styles.screen}><Text>This is hello world</Text>
-    <Button title='logout' onPress={()=>logoutHandler(props.navigation.navigate)}/></View>)
+  }
+
+  const logoutHandler = navigate => {
+    logoutRequest();
+    removeToken();
+    navigate("Auth");
+  }
+  return (<View style={styles.screen}><Text>This is hello world</Text>
+    <Button title='logout' onPress={() => logoutHandler(props.navigation.navigate)} /></View>)
 }
 
 const styles = StyleSheet.create({
-    screen:{
-        flex:1,
-        justifyContent:'center',
-        alignItems:'center'
-    }
+  screen: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
 })
 
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, ImageBackground, Image,Button } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, ImageBackground, Image, Button } from 'react-native';
 import CardSpotList from '../components/CardSpotList';
 
 
@@ -7,17 +7,17 @@ const DetailTrip = props => {
 
     const data = props.navigation.getParam('item');
     const spots = data.spot
-    console.log(data,'detail')
-    console.log(spots,'this data')
+    console.log(data, 'detail')
+    console.log(spots, 'this data')
     return (
         <ScrollView>
             <View style={styles.screen}>
-            <View style={styles.bgImageContainer}>
+                <View style={styles.bgImageContainer}>
                     <ImageBackground style={styles.imageBg} source={{ uri: data.thumbnail }} >
-                        <View style={{ justifyContent: 'flex-end', alignItems:'stretch'  }}>
-                        <Text style={{color:'white', fontSize:22, textAlign:'right'}}>{data.name}</Text>
+                        <View style={{ justifyContent: 'flex-end', alignItems: 'stretch' }}>
+                            <Text style={{ color: 'white', fontSize: 22, textAlign: 'right' }}>{data.name}</Text>
                         </View>
-                        </ImageBackground>
+                    </ImageBackground>
                 </View>
                 <View style={styles.detailContainer}>
                     <Text>Days: {data.day}</Text>
@@ -25,14 +25,15 @@ const DetailTrip = props => {
                     <Text>Budget:${data.cost}</Text>
                     <Button color='red' title='Donate' />
                 </View>
-            
-                  <CardSpotList  
-                        data={spots} 
-                        navigation={props.navigation}/>
-            
+
+                <CardSpotList
+                    data={spots}
+                    navigation={props.navigation} />
+
             </View>
-            </ScrollView>
-        )}
+        </ScrollView>
+    )
+}
 
 DetailTrip.navigationOptions = navData => {
     return {
@@ -40,7 +41,7 @@ DetailTrip.navigationOptions = navData => {
     }
 }
 const styles = StyleSheet.create({
-    screen:{
+    screen: {
         flex: 1,
     },
     bgImageContainer: {
@@ -48,17 +49,17 @@ const styles = StyleSheet.create({
         height: 200,
     },
     imageBg: {
-        width:'100%',
-        height:'100%',
-        borderRadius:10,
-        justifyContent:'flex-end',
+        width: '100%',
+        height: '100%',
+        borderRadius: 10,
+        justifyContent: 'flex-end',
     },
 
-    detailContainer:{
-        flexDirection:'row',
-        justifyContent:'space-between',
-        margin:10,
-        alignItems:'center'
+    detailContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        margin: 10,
+        alignItems: 'center'
     },
 })
 

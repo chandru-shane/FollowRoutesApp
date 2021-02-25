@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TextInput, Button,  TouchableNativeFeedback } from 'react-native';
+import { View, Text, StyleSheet, TextInput, Button, TouchableNativeFeedback } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import LogoText from '../components/LogoText';
@@ -9,43 +9,43 @@ import Register from '../components/Register';
 
 const MainAuth = props => {
     const [reg, setReg] = useState(false);
-    const [log , setLog] = useState(false);
-    
+    const [log, setLog] = useState(false);
+
     const isLoggedin = async () => {
         const token = await AsyncStorage.getItem("MR_Token");
         console.log("This is really working", token)
-        if(token){
+        if (token) {
             setLog(true);
             console.log('we are getting there')
             props.navigation.navigate('Home');
         }
-        
+
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         const willFocusSub = props.navigation.addListener('willFocus', isLoggedin);
 
         return () => {
             willFocusSub.remove();
         }
-    },[])
-    
-    useEffect(()=>{
+    }, [])
+
+    useEffect(() => {
         isLoggedin();
         console.log('this is printing new')
-    },[])
+    }, [])
     /**
      * this function toggle between login view and register view
      */
     const toggleView = () => {
         setReg(!reg);
     }
-    let authView = <Login  toggle={toggleView} navigate={props.navigation.navigate} />
-    
-    if (reg){
+    let authView = <Login toggle={toggleView} navigate={props.navigation.navigate} />
+
+    if (reg) {
         authView = <Register toggle={toggleView} />
     }
-   
+
     return (authView)
 }
 
