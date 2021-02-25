@@ -7,6 +7,12 @@ const SpotDetail = props => {
     )
 }
 
+SpotDetail.navigationOptions = navData => {
+    return {
+        headerTitle:navData.navigation.getParam('title')
+    }
+}
+
 const styles = StyleSheet.create({
     screen:{
         flex:1,

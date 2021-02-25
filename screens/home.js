@@ -92,21 +92,23 @@ const Home = props => {
     <ScrollView style={styles.scrollView}>
       <View style={styles.screen}>
         <HomeSearch SearchHandler={SearchHandler} serach={props.navigation.navigate} />
-
+        
         <FlatList style={styles.mainList}
           data={homeData}
-          keyExtractor={(item) => {
-            console.log(typeof toString(item.id), 'printine teh key data')
-            return toString(item.id)
-          }}
+          keyExtractor = {(item, index)=> item.id}
+          // keyExtractor={(item) => {
+          //   console.log(typeof toString(item.id), 'printine teh key data')
+          //   return toString(item.id)
+          // }}
           renderItem={(itemData) => {
             console.log(itemData.item, 'consoling');
             return (<CardBox
+              title = {itemData.item.name}
               cost={itemData.item.cost}
               description={itemData.item.description}
               day={itemData.item.day}
               thumbnail={itemData.item.thumbnail}
-              onSelect={() => { props.navigation.navigate({ routeName: 'Detail', params: { item: itemData.item } }) }}
+              onSelect={() => { props.navigation.navigate({ routeName: 'Detail', params: { item: itemData.item, title: itemData.item.name } }) }}
             />)
           }}
         />

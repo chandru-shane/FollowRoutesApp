@@ -26,12 +26,19 @@ const DetailTrip = props => {
                     <Button color='red' title='Donate' />
                 </View>
             
-                  <CardSpotList  data={spots} navigateToSpotDetail={()=>props.navigation.navigate('SpotDetail')}/>
+                  <CardSpotList  
+                        data={spots} 
+                        navigation={props.navigation}/>
             
             </View>
             </ScrollView>
         )}
 
+DetailTrip.navigationOptions = navData => {
+    return {
+        headerTitle: navData.navigation.getParam('title')
+    }
+}
 const styles = StyleSheet.create({
     screen:{
         flex: 1,
@@ -53,8 +60,6 @@ const styles = StyleSheet.create({
         margin:10,
         alignItems:'center'
     },
-    
-      
 })
 
 export default DetailTrip;

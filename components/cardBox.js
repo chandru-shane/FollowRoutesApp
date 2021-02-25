@@ -8,7 +8,14 @@ const CardBox = props => {
             <TouchableOpacity onPress={props.onSelect}>
             <View>
         <ImageBackground source={{ uri: props.thumbnail }}
-            style={styles.image} />
+            style={styles.image}>
+                
+                <View style={styles.titleContainer}>
+                <Text style={styles.title} numberOfLines={1}>
+                {props.title}
+                </Text>
+              </View>
+                 </ImageBackground>
         <View style={styles.detailContainer}>
             <Text>Budget: ${props.cost}</Text>
             <Text>Days: {props.day}</Text>
@@ -20,9 +27,7 @@ const CardBox = props => {
     )
 }
 
-CardBox.navigationOptions = navData ={
-    
-}
+
 
 const styles = StyleSheet.create({
     container: {
@@ -36,8 +41,20 @@ const styles = StyleSheet.create({
     },
     image: {
         width: '100%',
-        height: '85%',
+        height: '88%',
         justifyContent: 'flex-end',
+    },
+    titleContainer :{
+        backgroundColor: 'rgba(0,0,0,0.5)',
+        paddingVertical: 5,
+        paddingHorizontal: 12
+    },
+    title:{
+       
+    fontSize: 20,
+    color: 'white',
+    textAlign: 'center',
+    // justifyContent:'flex-end'
     },
     detailContainer: {
         flexDirection: 'row',
