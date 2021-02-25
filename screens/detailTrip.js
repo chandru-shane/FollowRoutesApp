@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, ImageBackground, Image, Button } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, ImageBackground, Button } from 'react-native';
 import CardSpotList from '../components/CardSpotList';
 
 

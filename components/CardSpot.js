@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 
 const CardSpot = props => {
     console.log(props.image)
-    props
     return (
         <TouchableOpacity onPress={props.navigateToSpotDetail}>
             <View style={styles.spotContainer}>

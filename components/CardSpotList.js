@@ -17,7 +17,7 @@ const CardSpotList = props => {
                         {
                             routeName: 'SpotDetail',
                             params: {
-                                item: item.item.place,
+                                'item': itemData.item,
                                 'title': itemData.item.place.name
                             }
                         }
