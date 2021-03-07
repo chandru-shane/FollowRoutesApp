@@ -1,11 +1,14 @@
 import { setStatusBarBackgroundColor } from 'expo-status-bar';
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, ImageBackground, Button } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, ImageBackground, Modal,TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'; 
+import AddPlaceTrip from '../components/AddPlaceTrip';
+import Colors from '../constants/Colors';
 
 
 const SpotDetail = props => {
     const data = props.navigation.getParam('item');
+    
     console.log('printing from spotdetail ')
     console.log(data);
     let cost;
@@ -19,9 +22,9 @@ const SpotDetail = props => {
         <ScrollView>
             <View style={styles.screen}>
                 <View style={styles.bgImageContainer}>
-                    <ImageBackground style={styles.imageBg} source={{ uri: data.place.image }} >
+                    <ImageBackground style={styles.imageBg} source={{ uri: data.image }} >
                         <View style={{ justifyContent: 'flex-end', alignItems: 'stretch' }}>
-                            <Text style={{ color: 'white', fontSize: 22, textAlign: 'right' }}>{data.place.name}</Text>
+                            <Text style={{ color: 'white', fontSize: 22, textAlign: 'right' }}>{data.name}</Text>
                         </View>
                     </ImageBackground>
                 </View>
@@ -30,7 +33,10 @@ const SpotDetail = props => {
                     <Text>Rating: 5/5</Text>
                     
                         <Text>Cost:${cost}</Text>
-                        <MaterialIcons name="add-location-alt" size={30} color="red" />
+                        {/* <MaterialIcons name="add-location-alt" size={30} color="red" /> */}
+                        <AddPlaceTrip placeId={data.id} navigation={props.navigation}/>
+                       
+                        
                     
                 </View>
 
@@ -44,8 +50,27 @@ const SpotDetail = props => {
 }
 
 SpotDetail.navigationOptions = navData => {
+    const isUser = navData.navigation.getParam('isUser')
+    const data = navData.navigation.getParam('item');
+    if(isUser){
+        return {
+            headerTitle: navData.navigation.getParam('title'),
+            headerRight:(<TouchableOpacity onPress={() => {
+                navData.navigation.navigate({
+                    routeName: 'UpdatePlace', params: {
+                        item: data,
+                        title: data.name,
+                        username: data.user_displayname
+                    }
+                })
+            }}>
+                <Text style={{ color: Colors.blue, padding: 10 }}>Update</Text>
+            </TouchableOpacity>)
+        } 
+    }
     return {
-        headerTitle: navData.navigation.getParam('title')
+        headerTitle: navData.navigation.getParam('title'),
+        
     }
 }
 
@@ -79,6 +104,7 @@ const styles = StyleSheet.create({
         borderBottomWidth:1,
         paddingVertical:10,
     },
+    
 })
 
 export default SpotDetail;

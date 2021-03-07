@@ -6,7 +6,15 @@ const Urls = {
     SEARCH: `${DOMAIN}api/trips/search/?search=`,
     HOME: `${DOMAIN}api/users/register/`,
     USER_PROFILE: `${DOMAIN}api/users/register/`,
-    TOP: `${DOMAIN}api/trips/top/`
+    TOP: `${DOMAIN}api/trips/`,
+    CREATE_TRIP: `${DOMAIN}api/trips/`,
+    GET_USER_NAME: `${DOMAIN}api/userprofile/username/`,
+    CREATE_PLACE: `${DOMAIN}api/places/create/place/`,
+    DETAIL_PLACE: `${DOMAIN}api/places/place/`,
+    USER_TRIPS: `${DOMAIN}api/userprofile/usertrips/`,
+    CREATE_PLAN_TRIP: `${DOMAIN}api/plantrip/create/`,
+    USER_PLANNED_TRIP: `${DOMAIN}api/plantrip/usersplanned/`,
+    ADD_PLACE_TO_PLAN_TRIP: `${DOMAIN}api/plantrip/add/place/`,
 }
 
 export default Urls;

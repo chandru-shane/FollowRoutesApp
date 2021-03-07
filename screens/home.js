@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, ImageBackground, Alert, ScrollView, FlatList } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons'; 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+
+import HeaderButton from '../components/HeaderButton';
 
 import Urls from '../constants/Urls';
 import CardBox from '../components/CardBox';
@@ -10,6 +13,7 @@ import HomeSearch from '../components/HomeSearch';
 const Home = props => {
   const [homeData, setHomeData] = useState("");
   const [isSearched, setIsSearched] = useState(false);
+  const [refresh , setRefresh] = useState(false);
 
   const removeKey = async () => {
     try {
@@ -21,37 +25,48 @@ const Home = props => {
   }
 
   const getHomeData = async () => {
-
+    setRefresh(true)
     const token = await AsyncStorage.getItem("MR_Token");
     console.log("getting the home data", token)
-    if (token) {
-      fetch(`${Urls.TOP}`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Token ${token}`
-        }
-
-      }).then(res => {
-        if (res.status === 200) {
-          console.log("This we get data fine", res)
-          return res.json();
-        }
-        else {
-          removeKey();
-          console.log('is am going to exit')
-          props.navigation.navigate("Auth");
-        }
-      }).then(res => {
-        console.log('printing data', res);
-        setHomeData(res)
-      })
+    try{
+      if (token) {
+        fetch(`${Urls.TOP}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Token ${token}`
+          }
+  
+        }).then(res => {
+          if (res.status === 200) {
+            console.log("This we get data fine", res)
+            setRefresh(false)
+            return res.json();
+          }
+          else {
+            removeKey();
+            console.log('is am going to exit')
+            props.navigation.navigate("Auth");
+          }
+        }).then(res => {
+          console.log('printing data', res);
+          setHomeData(res)
+        }).catch(() => {
+          Alert.alert('Error', 'Network Error', ['Okay'])
+        })
+      }
+    }
+    catch(error){
+      console.log('thisis from allert fule')
+      Alert.alert('Error', 'Network Error New', ['Okay'])
     }
   }
 
 
   const searchRequest = async (text, navigate = null) => {
     const token = await AsyncStorage.getItem("MR_Token")
-
+    if(!text){
+      return;
+    }
     if (token) {
       fetch(`${Urls.SEARCH}${text}`, {
         method: 'GET',
@@ -87,13 +102,23 @@ const Home = props => {
 
   }, [])
 
+  useEffect(()=>{
+    const willFocusSub = props.navigation.addListener('willFocus', getHomeData)
+    return () =>{
+      willFocusSub.remove()
+    }
+  },[])
+
   return (
 
     <ScrollView style={styles.scrollView}>
       <View style={styles.screen}>
         <HomeSearch SearchHandler={SearchHandler} serach={props.navigation.navigate} />
 
-        <FlatList style={styles.mainList}
+        <FlatList 
+        onRefresh = {getHomeData}
+        refreshing={refresh}
+        style={styles.mainList}
           data={homeData}
           keyExtractor={(item, index) => item.id}
           // keyExtractor={(item) => {
@@ -108,21 +133,34 @@ const Home = props => {
               description={itemData.item.description}
               day={itemData.item.day}
               thumbnail={itemData.item.thumbnail}
-              onSelect={() => { props.navigation.navigate({ routeName: 'Detail', params: { item: itemData.item, title: itemData.item.name } }) }}
+              onSelect={() => { props.navigation.navigate({ routeName: 'Detail', params: { item: itemData.item, title: itemData.item.name, username:itemData.item.user_displayname } }) }}
             />)
           }}
         />
 
       </View>
-    </ScrollView>
+     </ScrollView>
 
 
   )
 
 }
 
-Home.navigationOptions = {
-  headerTitle:'FollowRoutes'
+Home.navigationOptions= navData => {
+  return {
+    headerTitle:'FollowRoutes',
+    headerLeft: (
+      <HeaderButtons HeaderButtonComponent={HeaderButton}>
+        <Item
+          title="Menu"
+          iconName="ios-menu"
+          onPress={() => {
+            navData.navigation.toggleDrawer();
+          }}
+        />
+      </HeaderButtons>
+    )
+  }
 }
 
 const styles = StyleSheet.create({

@@ -12,7 +12,7 @@ const CardSpot = props => {
                         source={{ uri: props.image }}
                     />
                 </View>
-                <Text>{props.name}</Text>
+                <Text style={styles.spotName}>{props.name}</Text>
             </View>
         </TouchableOpacity>
     )
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         height: 90,
         borderWidth: 1,
-        borderColor: '#888',
+        borderColor: '#ccc',
         alignItems: 'center',
         overflow: 'hidden'
     },
@@ -38,13 +38,19 @@ const styles = StyleSheet.create({
         borderRadius: 100,
         overflow: 'hidden',
         borderWidth: 1,
-        borderColor: 'grey',
+        borderColor: '#ccc',
 
     },
     spotImage: {
         width: '100%',
         height: '100%'
     },
+    spotName:{
+        textAlign:'center',
+        padding:10,
+        margin:10,
+        fontSize:18
+    }
 })
 
 export default CardSpot;

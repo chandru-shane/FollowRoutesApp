@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet, Pressable } from 'react-native';
 import Urls from '../constants/Urls';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -45,8 +45,13 @@ const User = props => {
     logoutRequest();
     navigate("Auth");
   }
-  return (<View style={styles.screen}><Text>This is hello world</Text>
-    <Button title='logout' onPress={() => logoutHandler(props.navigation.navigate)} /></View>)
+  return (
+      <Pressable onPress={() => logoutHandler(props.navigation.navigate)}>
+        <View style={styles.logoutContainer}>
+          <Text style={styles.logoutText}>logout</Text>
+          </View> 
+      </Pressable>
+    )
 }
 
 const styles = StyleSheet.create({
@@ -54,6 +59,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  logoutContainer:{
+    margin:5,
+    padding:5
+  },
+  logoutText:{
+    color:'red'
   }
 })
 

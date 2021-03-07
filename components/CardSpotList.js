@@ -10,15 +10,16 @@ const CardSpotList = props => {
             <FlatList data={props.data}
                 keyExtractor={(item, index) => item.id}
                 renderItem={(itemData) => <CardSpot
-                    image={itemData.item.place.image}
-                    name={itemData.item.place.name}
+                    image={itemData.item.image}
+                    name={itemData.item.name}
                     cost={itemData.item.spot_cost}
                     navigateToSpotDetail={() => props.navigation.navigate(
                         {
                             routeName: 'SpotDetail',
                             params: {
                                 'item': itemData.item,
-                                'title': itemData.item.place.name
+                                'title': itemData.item.name,
+                                'isUser':props.isUser
                             }
                         }
                     )} />} />
