@@ -83,7 +83,9 @@ const AddPlaceTrip = props =>{
           renderItem = {(itemData)=>{
               return (
 
-                <ModalListCard placeId={props.placeId} item={itemData.item} navigation={props.navigation} modalState={[modalVisible,setModalVisible]}/>
+                <View style={{borderBottomColor:"#ccc", borderBottomWidth:1, width:'100%', flex:1, justifyContent:'center', alignItems:'center'}}>
+                  <ModalListCard placeId={props.placeId} item={itemData.item} navigation={props.navigation} modalState={[modalVisible,setModalVisible]}/>
+                </View>
                 
               )
           }}
@@ -107,11 +109,12 @@ const styles = StyleSheet.create({
         marginTop: 22
       },
       modalView: {
-        margin: 10,
+        
         backgroundColor: "white",
         borderRadius: 20,
         padding: 10,
-        alignItems: "center",
+        paddingHorizontal:"10%",
+        // alignItems: "center",
         shadowColor: "#000",
         shadowOffset: {
           width: 0,
@@ -123,7 +126,7 @@ const styles = StyleSheet.create({
         height:"50%",
         width:'70%',
         justifyContent: "center",
-        alignItems: "center",
+        // alignItems: "center",
       },
       button: {
         borderRadius: 20,
@@ -144,7 +147,8 @@ const styles = StyleSheet.create({
       modelHeading:{
   
         fontWeight: "bold",
-        textAlign:'left'
+        textAlign:'center',
+        padding:10
       },
       modalText: {
         marginBottom: 15,

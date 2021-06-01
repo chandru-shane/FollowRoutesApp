@@ -2,8 +2,10 @@ import React from 'react';
 import { View, Text, StyleSheet, ImageBackground, TouchableOpacity } from 'react-native';
 
 const CardBox = props => {
+    console.log("==============",props,"===============")
+    console.log("++++++++++++",props.currency,"+++++++++++++++++++")
     return (
-
+        
         <View style={styles.container}>
             <TouchableOpacity onPress={props.onSelect}>
                 <View>
@@ -17,7 +19,7 @@ const CardBox = props => {
                         </View>
                     </ImageBackground>
                     <View style={styles.detailContainer}>
-                        <Text>Budget: ${props.cost}</Text>
+                        <Text>Budget:{props.cost} {props.currency}</Text>
                         <Text>Days: {props.day}</Text>
                         <Text>Rating: 5/5</Text>
                     </View>

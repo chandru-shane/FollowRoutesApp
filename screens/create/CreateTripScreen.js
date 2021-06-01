@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { View, ScrollView, StyleSheet, TextInput } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, TextInput, Switch, ActivityIndicator, Modal, Pressable } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Urls from '../../constants/Urls';
 import ImagePicker from '../../components/ImagePicker';
 import CustomButton from '../../components/CustomButton';
+
+import Colors from '../../constants/Colors';
+import { Picker } from '@react-native-picker/picker';
 
 
 const CreateTripScreen = props => {
@@ -13,6 +16,11 @@ const CreateTripScreen = props => {
     const [day, setDay] = useState();
     const [description, setDescription] = useState();
     const [person, setPerson] = useState(1);
+    const [isEnabled, setIsEnabled] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [selectedCurrency, setSelectedCurrency] = useState("INR");
+
+    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
     const thumbnailHandler = (uri) => {
         setThumbnail(uri)
@@ -49,6 +57,7 @@ const CreateTripScreen = props => {
 
 
     const postCreateTrip = async () => {
+        setLoading(true);
         const token = await AsyncStorage.getItem('MR_Token');
         console.log('getting token', token)
         if (!validation()) {
@@ -65,9 +74,11 @@ const CreateTripScreen = props => {
         form.append('description', description)
         form.append('cost', cost)
         form.append('day', day)
-        form.append('person', person)
+        form.append('person', person),
+        form.append('currency', selectedCurrency)
+        form.append('post', isEnabled)
+        console.log(form)
 
-        let id;
         try {
             console.log('this is new')
             if (token) {
@@ -82,6 +93,7 @@ const CreateTripScreen = props => {
                     body: form
                 })
                     .then(res => {
+                        console.log(res)
                         if (res.status != 201) {
                             return;
                         }
@@ -90,6 +102,7 @@ const CreateTripScreen = props => {
                     .then(res => {
                         console.log('printing from right after created')
                         console.log(res)
+                        setLoading(false);
                         props.navigation.navigate({ routeName: 'Detail', params: { item: res, title: res['name'], username: res['user_displayname'] } })
                     })
                     .catch(error => console.log(error));
@@ -129,14 +142,31 @@ const CreateTripScreen = props => {
                     value={day}
                     onChangeText={dayHandler}
                 />
+                
 
+               
+                <View style={{flexDirection:'row'}}> 
+                
                 <TextInput
-                    style={{ ...styles.titleInput, ...styles.input }}
+                    style={{ ...styles.titleInput, ...styles.inputR }}
                     keyboardType={'number-pad'}
                     placeholder='Cost'
                     value={cost}
                     onChangeText={costHandler}
                 />
+                
+
+                   <View style={{width:"30%"}}>
+                    <Picker
+                        selectedValue={selectedCurrency}
+                        onValueChange={(itemValue, itemIndex) =>
+                            setSelectedCurrency(itemValue)
+                        }>
+                        <Picker.Item label="INR" value={1} />
+                        <Picker.Item label="USD" value={2} />
+                    </Picker>
+                </View>
+                </View>
 
                 <TextInput
                     style={{ ...styles.input }}
@@ -157,9 +187,21 @@ const CreateTripScreen = props => {
                 />
                 <ImagePicker onGetImage={thumbnailHandler} title="Pick Image from Gallery" />
 
-                <CustomButton title='Save' onPress={postCreateTrip} />
-
+                <View style={styles.switchContianer}>
+                    <Text>Set on to see everyone</Text>
+                    <Switch
+                        trackColor={{ false: "#767577", true: "#81b0ff" }}
+                        thumbColor={isEnabled ? Colors.blue : Colors.blue}
+                        ios_backgroundColor="#3e3e3e"
+                        onValueChange={toggleSwitch}
+                        value={isEnabled}
+                    />
+                </View>
+                {loading ? <ActivityIndicator size='large' color={Colors.blue} /> : <CustomButton title='Save' onPress={postCreateTrip} />}
             </View>
+
+
+            
         </ScrollView>
     );
 }
@@ -184,9 +226,21 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         width: '80%',
         padding: 1,
-
-
-    }
+    },
+    switchContianer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginVertical: 4,
+    },
+    inputR: {
+        borderColor: '#ccc',
+        borderBottomWidth: 1,
+        marginVertical: 10,
+        width: '70%',
+        // marginHorizontal:10,
+        padding: 1
+    },
 })
 
 export default CreateTripScreen;

@@ -11,23 +11,56 @@ import { AntDesign, Ionicons } from '@expo/vector-icons';
 import Home from '../screens/Home';
 import DetailTrip from '../screens/DetailTrip';
 import User from '../screens/User';
-import MainAuth from '../screens/MainAuth';
+import MainAuth from '../screens/Auth/MainAuth';
 import SpotDetail from '../screens/SpotDetail';
 import CreateScreen from '../screens/create/CreateScreen';
 import CreateTripScreen from '../screens/create/CreateTripScreen';
 import CreatePlaceScreen from '../screens/CreatePlaceScreen';
 import PlanTripScreen from '../screens/create/PlanTripScreen';
-import CreateSpotScreen from '../screens/create/CreateSpotScreen';
+// import CreateSpotScreen from '../screens/create/CreateSpotScreen';
 import DetailTripScreen from '../screens/create/DetialTripScreen';
 import UpdateTripScreen from '../screens/UpdateTripScreen'
 import CreateMapScreen from '../screens/CreateMapScreen';
-import TripsScreen from '../screens/Drawer/TripsScreen';
-import PlacesScreen from '../screens/Drawer/PlacesScreen';
+// import TripsScreen from '../screens/Drawer/TripsScreen';
+// import PlacesScreen from '../screens/Drawer/PlacesScreen';
 import PlannedTripScreen from '../screens/Drawer/PlannedTripsScreen';
 import UpdatePlaceScreen from '../screens/UpdatePlaceScreen';
 import DetailPlannedTripScreen from '../screens/Drawer/DetailPlannedTripScreen';
+import UserProfileScreen from '../screens/UserProfileScreen';
+import UserFollowing from '../screens/UserFollowing';
+import UserFollowers from '../screens/UserFollowers';
+import ProfileUpdateScreen from '../screens/ProfileUpdateScreen';
+import  ForgetPasswordRequestScreen from '../screens/Auth/ForgotPasswordRequestScreen';
+import TokenScreen from '../screens/Auth/TokenScreen';
+import ResetPasswordScreen from '../screens/Auth/ResetPasswordScreen';
+import DonateStripeDetailsScreen from '../screens/Donate/DonateStripeDetailsScreen';
+import ConfirmDonationScreen from '../screens/Donate/ConfirmDonationScreen';
 
 
+const Auth = createStackNavigator({
+  User: 
+  {
+    screen: MainAuth, navigationOptions: {
+      headerShown: false,
+    }
+  },
+  Forgot:{
+    screen: ForgetPasswordRequestScreen, navigationOptions: {
+      headerShown: false,
+    }
+  },
+  Token: {
+    screen: TokenScreen, navigationOptions: {
+      headerShown: false,
+    }
+  },
+  Reset:{
+    screen: ResetPasswordScreen, navigationOptions: {
+      headerShown: false,
+    }
+  },
+
+})
 
 const HomeNavigator = createStackNavigator({
 
@@ -41,25 +74,23 @@ const HomeNavigator = createStackNavigator({
   UpdateTrip:UpdateTripScreen,
   CreatePlace:CreatePlaceScreen,
   UpdatePlace:UpdatePlaceScreen,
-  CreateMap: CreateMapScreen
+  CreateMap: CreateMapScreen,
+  UserProfile: UserProfileScreen
 })
 
 
 
 const UserNavigator = createStackNavigator({
-  User: {
-    screen: User, navigationOptions: {
-      // header: null,
-    }
-  },
+  User: User,
+  Following:UserFollowing,
+  Followers: UserFollowers,
+  UpdateProfile: ProfileUpdateScreen,
+  DonateStripe:DonateStripeDetailsScreen,
+  ConfirmDonation: ConfirmDonationScreen,
 })
 
 
-const drawerNavigation = createDrawerNavigator({
-  Trips: TripsScreen,
-  Places:PlacesScreen,
-  PlannedTrips:PlannedTripScreen,
-})
+
 
 const CreateNavigator = createStackNavigator({
   CreateScreen:CreateScreen,
@@ -122,12 +153,12 @@ const PlannedTripNavigation = createStackNavigator({
 
 const tstnavigator = createDrawerNavigator({
   Home:TabNavigator,
-  Trips: TripsScreen,
+  // Trips: TripsScreen,
   Plans:PlannedTripNavigation
 })
 
 const Navigator = createSwitchNavigator({
-  Auth: MainAuth,
+  Auth: Auth,
   App: tstnavigator,
 })
 

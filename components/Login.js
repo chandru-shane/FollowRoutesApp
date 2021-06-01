@@ -1,29 +1,56 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, Button, TouchableNativeFeedback, Alert } from 'react-native';
+import { View, Text, StyleSheet, TextInput,ActivityIndicator ,Button, TouchableNativeFeedback, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import CustomButton from './CustomButton';
 import LogoText from './LogoText';
 import Colors from '../constants/Colors';
+import Urls from '../constants/Urls';
 
 const Login = props => {
   const [username, setUsername] = useState("");
   const [password, setPasword] = useState("");
   const [logg, setLogg] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
-  const move = async () => {
-    const token = await AsyncStorage.getItem("MR_Token")
-    if (token) {
-      props.navigate('Home')
+  const [loading, setLoading] = useState(false);
+ 
+  const validation =  () =>{
+    if (username.length &&  password.length >= 8 ){
+      return true;
+    }
+    else {
+      let errmsg;
+      if (username.length <= 0 ){
+        errmsg='No Username '
+      }
+
+      else if (password.length <= 8) {
+        errmsg='password should be at least 8 digits'
+      }
+      
+      Alert.alert(
+        "Error",
+        errmsg,
+        [
+         
+          { text: "OK", onPress: () => console.log("OK Pressed") }
+        ],
+        { cancelable: false }
+      );
+      setLoading(false);
+      return false
     }
   }
-
+  // const 
   /**
    * This function handler the login request and validation
    */
+  
   const loginHandler = () => {
-
-    if ((username.length) >= 1 || (password.length) >= 4) {
-      fetch(`http://192.168.43.242:8000/api/users/login/`, {
+    setLoading(true);
+    // TODO: change true to validation()
+    if (validation()) {
+      fetch(Urls.LOGIN, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -32,6 +59,7 @@ const Login = props => {
       })
         .then(res => {
           console.log(res.status)
+          setLoading(false);
           if (res.status === 200) {
             return res.json();
 
@@ -48,7 +76,7 @@ const Login = props => {
         .catch(error => console.log(error));
     }
     else {
-      Alert.alert('Error', 'Invaild Username or Password')
+      // Alert.alert('Error', 'Invaild Username or Password')
     }
   }
   const saveData = async (token) => {
@@ -71,11 +99,7 @@ const Login = props => {
   }
 
 
-  const removeData = async () => {
-    console.log('this reavoed')
-    await AsyncStorage.removeItem('MR_Token')
 
-  }
 
 
 
@@ -90,11 +114,12 @@ const Login = props => {
       <TextInput autoCapitalize='none' style={styles.input} placeholder="Password" onChangeText={(pass) => { setPasword(pass) }} value={password} secureTextEntry={true} />
 
       <View style={styles.buttonContainer}>
-        <Button color={Colors.primay} title='Login' onPress={() => { loginHandler() }} />
+      {loading ? <ActivityIndicator size='large' color={Colors.blue} /> : <CustomButton style={{backgroundColor:Colors.primay, borderRadius:4}}  title='Login' onPress={loginHandler} />}
       </View>
       <View>
         {/* <Text>Don't have an account? <Text style={{color:Colors.blue}}>Register</Text></Text> */}
         <Text>Don't have an account? <TouchableNativeFeedback onPress={() => props.toggle()}><Text style={{ color: Colors.blue }}>Register</Text></TouchableNativeFeedback> </Text>
+        <Text>Trouble in logging  <TouchableNativeFeedback onPress={() => props.navigate('Forgot')}><Text style={{ color: Colors.blue }}>forgot password? </Text></TouchableNativeFeedback> </Text>
 
       </View>
     </View>)

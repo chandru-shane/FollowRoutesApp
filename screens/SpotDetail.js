@@ -32,11 +32,9 @@ const SpotDetail = props => {
                     
                     <Text>Rating: 5/5</Text>
                     
-                        <Text>Cost:${cost}</Text>
+                        <Text>Cost:{cost} {data.currency}</Text>
                         {/* <MaterialIcons name="add-location-alt" size={30} color="red" /> */}
-                        <AddPlaceTrip placeId={data.id} navigation={props.navigation}/>
-                       
-                        
+                        <AddPlaceTrip placeId={data.id} navigation={props.navigation}/>                       
                     
                 </View>
 
@@ -64,7 +62,7 @@ SpotDetail.navigationOptions = navData => {
                     }
                 })
             }}>
-                <Text style={{ color: Colors.blue, padding: 10 }}>Update</Text>
+                <Text style={{ color: Colors.update, padding: 10, fontWeight:'bold' }}>Update Place</Text>
             </TouchableOpacity>)
         } 
     }

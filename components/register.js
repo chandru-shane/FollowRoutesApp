@@ -1,9 +1,11 @@
 import { setStatusBarStyle } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, Button, TouchableNativeFeedback } from 'react-native';
+import { View, Text, StyleSheet,ActivityIndicator, TextInput, Button, TouchableNativeFeedback } from 'react-native';
 
+import CustomButton from './CustomButton'
 import LogoText from './LogoText';
 import Colors from '../constants/Colors';
+import Urls from '../constants/Urls'
 
 
 const Register = props => {
@@ -11,19 +13,20 @@ const Register = props => {
   const [email, setEmail] = useState("");
   const [password, setPasword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
+  const [loading, setLoading] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
 
 
   const registerHandler = () => {
-    fetch(`http://192.168.43.242:8000/api/users/register/`, {
+    setLoading(true);
+    fetch(Urls.REGISTER, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ email: email, password: password, username: username })
     })
-      .then(res => { if (res.status == 201) { props.toggle(); } return res.json() })
+      .then(res => {setLoading(false); if (res.status == 201) {  props.toggle(); } return res.json() })
       .then((res) => {
         // TODO:Check the otehr condition for username email and password
         console.log(res);
@@ -34,7 +37,8 @@ const Register = props => {
         // }
 
       })
-      .catch(error => console.log(error));
+      .catch(error => {console.log(error), 
+        setLoading(false);});
   }
 
   return (
@@ -49,7 +53,9 @@ const Register = props => {
       <TextInput autoCapitalize='none' style={styles.input} placeholder="Password" onChangeText={(pass) => { setPasword(pass) }} value={password} secureTextEntry={true} />
       <TextInput autoCapitalize='none' style={styles.input} placeholder="Confirm Password" onChangeText={(pass) => { setConfirmPassword(pass) }} value={confirmPassword} secureTextEntry={true} />
       <View style={styles.buttonContainer}>
-        <Button color={Colors.primay} title='Register' onPress={() => { registerHandler() }} />
+      {loading ? <ActivityIndicator size='large' color={Colors.blue} /> : <CustomButton style={{backgroundColor:Colors.primay, borderRadius:4}}  title='Register' onPress={() => { registerHandler() }} />}
+
+      
       </View>
       <View>
         <Text>Already have an account? <TouchableNativeFeedback onPress={() => props.toggle()}><Text style={{ color: Colors.blue }}>Login</Text></TouchableNativeFeedback> </Text>

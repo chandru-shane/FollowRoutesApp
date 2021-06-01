@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TextInput, Button, TouchableNativeFeedback } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import LogoText from '../components/LogoText';
-import Login from '../components/Login';
-import Register from '../components/Register';
+
+import Login from '../../components/Login';
+import Register from '../../components/Register';
 
 
 const MainAuth = props => {
@@ -22,13 +22,13 @@ const MainAuth = props => {
 
     }
 
-    useEffect(() => {
-        const willFocusSub = props.navigation.addListener('willFocus', isLoggedin);
+    // useEffect(() => {
+    //     const willFocusSub = props.navigation.addListener('willFocus', isLoggedin);
 
-        return () => {
-            willFocusSub.remove();
-        }
-    }, [])
+    //     return () => {
+    //         willFocusSub.remove();
+    //     }
+    // }, [])
 
     useEffect(() => {
         isLoggedin();

@@ -37,6 +37,7 @@ const Home = props => {
           }
   
         }).then(res => {
+          console.log(res);
           if (res.status === 200) {
             console.log("This we get data fine", res)
             setRefresh(false)
@@ -133,6 +134,7 @@ const Home = props => {
               description={itemData.item.description}
               day={itemData.item.day}
               thumbnail={itemData.item.thumbnail}
+              currency={itemData.item.currency}
               onSelect={() => { props.navigation.navigate({ routeName: 'Detail', params: { item: itemData.item, title: itemData.item.name, username:itemData.item.user_displayname } }) }}
             />)
           }}

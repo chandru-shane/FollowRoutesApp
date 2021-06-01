@@ -6,7 +6,13 @@ import CustomButton from './CustomButton'
 
 const ImagePickerCom = props => {
   const [image, setImage] = useState(null);
+  let aspect = [16, 9]
 
+  if(props.isAspect){ 
+    aspect = props.aspect
+    console
+    
+  } 
   useEffect(() => {
 
     if (props.show){
@@ -24,10 +30,11 @@ const ImagePickerCom = props => {
   }, []);
 
   const pickImage = async () => {
+  
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [16, 9],
+      aspect: aspect,
       quality: 0.7,
     });
 
@@ -41,12 +48,18 @@ const ImagePickerCom = props => {
     }
   };
 
-
+  let button = <CustomButton style={styles.button} title="Image from gallery" onPress={pickImage} />
+  if(props.remove){
+    button = <View style={{flexDirection:'row',justifyContent:'space-between', margin:1 }}>
+      <CustomButton style={{...styles.button,backgroundColor:'red' }} title={props.removeTitle} onPress={props.removeHandler} />
+      <CustomButton style={{...styles.button, margin:1}} title="Image from gallery" onPress={pickImage} />
+    </View>
+  }
 
   return (
     <View style={styles.imagePicker}>
-      {image && <Image source={{ uri: image }} style={{ width: 200, height: 133.333, margin:10 }} />}
-      <CustomButton style={styles.button} title="Image from gallery" onPress={pickImage} />
+      {image && <Image source={{ uri: image }} style={{ width: 200, height: 133.333, margin:10 , ...props.imageStyle}} />}
+      {button}
     </View>
   );
 }

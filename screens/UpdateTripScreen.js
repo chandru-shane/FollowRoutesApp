@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { View, ScrollView, Image, Text, StyleSheet, TextInput, Button, Alert, ActivityIndicator, Modal, Pressable } from 'react-native';
+import { View, ScrollView, Image, Text, StyleSheet,Switch, TextInput, Button, Alert, ActivityIndicator, Modal, Pressable } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ImagePicker from '../components/ImagePicker';
 import Urls from '../constants/Urls';
 import Colors from '../constants/Colors';
 import CustomButton from '../components/CustomButton';
+import { Picker } from '@react-native-picker/picker';
+
 
 const UpdateTripScreen = props => {
     const data = props.navigation.getParam('item');
@@ -17,10 +19,12 @@ const UpdateTripScreen = props => {
     const [person, setPerson] = useState(data.person);
     console.log('logging data********************', day, person)
     const [description, setDescription] = useState(data.description);
+    const [isEnabled, setIsEnabled] = useState(data.post);
+    const [selectedCurrency, setSelectedCurrency] = useState(data.currency);
 
-    const modelHandler = () => {
-        setModalVisible(!modalVisible);
-    }
+    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+ 
+    
 
 
 
@@ -65,7 +69,7 @@ const UpdateTripScreen = props => {
         console.log('getting token', token)
         if (!validation()) {
             
-            return;
+            return; 
         }
         let thumbnailData = {
             uri: thumbnail,
@@ -79,6 +83,9 @@ const UpdateTripScreen = props => {
         form.append('cost', cost)
         form.append('day', day)
         form.append('person', person)
+        form.append('post', isEnabled)
+        form.append('currency', selectedCurrency)
+        console.log(form)
 
         try {
             console.log('this is new', Urls.CREATE_TRIP.concat(`${data.id}/`))
@@ -177,13 +184,29 @@ const UpdateTripScreen = props => {
 
 
 
+<View style={{flexDirection:'row'}}> 
+                
                 <TextInput
-                    style={{ ...styles.titleInput, ...styles.input }}
+                    style={{ ...styles.titleInput, ...styles.inputR }}
                     keyboardType={'number-pad'}
                     placeholder='Cost'
                     value={cost}
                     onChangeText={costHandler}
                 />
+                
+
+                   <View style={{width:"30%"}}>
+                    <Picker
+                        selectedValue={selectedCurrency}
+                        onValueChange={(itemValue, itemIndex) =>
+                            setSelectedCurrency(itemValue)
+                        }>
+                        <Picker.Item label="INR" value={1} />
+                        <Picker.Item label="USD" value={2} />
+                    </Picker>
+                </View>
+                </View>
+
 
                 <TextInput
                     style={{ ...styles.titleInput, ...styles.input }}
@@ -203,12 +226,24 @@ const UpdateTripScreen = props => {
                     value={description}
                     onChangeText={descriptionHandler}
                 />
+                <View style={styles.switchContianer}>
+                    <Text>Set on to see everyone</Text>
+                <Switch
+        trackColor={{ false: "#767577", true: "#81b0ff" }}
+        thumbColor={isEnabled ? Colors.blue :  Colors.blue}
+        ios_backgroundColor="#3e3e3e"
+        onValueChange={toggleSwitch}
+        value={isEnabled}
+      />
+                </View>
                 {/* <ImagePicker onGetImage={thumbnailHandler} /> */}
                 <View style={styles.buttonContainer}>
                     <View style={styles.singleButton}>
 
                         <CustomButton onPress={() => setModalVisible(true)} style={{backgroundColor:'red'}} title="Delete" />
                     </View>
+                    
+
                     <View style={styles.singleButton}>
                         {loading ? <ActivityIndicator size='large' color={Colors.blue} /> : <CustomButton title='Save' onPress={putUpdateTrip} />}
                     </View>
@@ -335,7 +370,21 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
 
 
-    }
+    },
+    switchContianer:{
+        flexDirection:'row',
+        justifyContent:'center',
+        alignItems:'center',
+        marginVertical:4,
+    },
+    inputR: {
+        borderColor: '#ccc',
+        borderBottomWidth: 1,
+        marginVertical: 10,
+        width: '70%',
+        // marginHorizontal:10,
+        padding: 1
+    },
 })
 
 export default UpdateTripScreen;

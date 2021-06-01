@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, ImageBackground, Button, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, ImageBackground, Button, Image, TouchableOpacity, Pressable } from 'react-native';
 import CardSpotList from '../components/CardSpotList';
 import AddSpot from '../components/AddSpot';
 import Colors from '../constants/Colors';
-import CustomButton from '../components/CustomButton';
+import DonateButton from '../components/DonateButton';
 
 
 let isuser = false;
@@ -15,6 +15,14 @@ const DetailTrip = props => {
     console.log(data, 'detail')
     console.log(spots, 'this data')
 
+    const userProfileNavigateHandler = () => {
+        if (data.is_user){
+            props.navigation.navigate('User')
+        }
+        else{
+        props.navigation.navigate({routeName: 'UserProfile', params:{userData:data, load:false}})
+        }
+    }
 
     return (
         <ScrollView>
@@ -35,14 +43,14 @@ const DetailTrip = props => {
                 <View style={styles.createdUserBox}>
                     <Text>Create By</Text>
                     <View style={styles.userInfoDonateContainer}>
+                    <Pressable onPress={userProfileNavigateHandler}>
                         <View style={styles.userContainer}>
                             <Image style={styles.userImage} source={{ uri: data.userprofile_image }} />
                             <Text>{data.username}</Text>
                         </View>
-                        {
-                            !data.is_user && <View style={styles.donatecontainer}>
-                            <CustomButton style={{backgroundColor:'red'}} title='Contribute' />
-                        </View>
+                    </Pressable>
+                    {
+                            !data.is_user && <DonateButton userProfileNavigateHandler={userProfileNavigateHandler} data={data} navigation={props.navigation}/>
                         }
                     </View>
                 </View>
@@ -77,7 +85,7 @@ DetailTrip.navigationOptions = navData => {
                 }
             })
         }}>
-            <Text style={{ color: Colors.blue, padding: 10 }}>Update</Text>
+            <Text style={{ color: Colors.update, padding: 10, fontWeight:'bold' }}>Update Trip</Text>
         </TouchableOpacity>)
 
     }
